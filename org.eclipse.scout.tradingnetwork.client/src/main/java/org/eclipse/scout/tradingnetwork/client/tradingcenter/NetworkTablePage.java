@@ -188,10 +188,6 @@ public class NetworkTablePage extends AbstractPageWithTable<Table> {
       protected void execAction() {
         String contractAbi = readResourceFile(CONTRACT_ABI_FILE);
         String contractAddress = BEANS.get(INetworkService.class).getContractAddress(m_orderBookId);
-        String obVariableName = "FxTrading"; //m_orderBookId;
-        // TODO test and cleanup
-//        String callPrefix = "OrderBook.methods";
-//        String callPostfix = ".call().then(console.log)\n";
         String callTemplate = "OrderBook.methods.%s.call().then(console.log)\n";
 
         StringBuffer web3code = new StringBuffer();
@@ -209,7 +205,6 @@ public class NetworkTablePage extends AbstractPageWithTable<Table> {
         web3code.append("web3.setProvider(new Web3.providers.HttpProvider('http://localhost:8545'))\n");
         web3code.append("var OrderBook = new web3.eth.Contract(");
         web3code.append(contractAbi).append(")\n");
-        // web3code.append("var ").append(obVariableName).append(" = ");
         web3code.append("OrderBook.options.address = '").append(contractAddress).append("'").append("\n");
         web3code.append(String.format(callTemplate, "symbol()"));
         web3code.append(String.format(callTemplate, "getNumberOfBuyOrders()"));
@@ -217,11 +212,6 @@ public class NetworkTablePage extends AbstractPageWithTable<Table> {
         web3code.append(String.format(callTemplate, "matchExists()"));
         web3code.append(String.format(callTemplate, "topBuyOrderId()"));
         web3code.append(String.format(callTemplate, "topSellOrderId()"));
-//        web3code.append(obVariableName).append(".getNumberOfBuyOrders()").append("\n");
-//        web3code.append(obVariableName).append(".getNumberOfSellOrders()").append("\n");
-//        web3code.append(obVariableName).append(".matchExists()").append("\n");
-//        web3code.append(obVariableName).append(".topBuyOrderId()").append("\n");
-//        web3code.append(obVariableName).append(".topSellOrderId()").append("\n");
 
         ContractWeb3Form infoForm = new ContractWeb3Form();
         infoForm.getWeb3InfoField().setValue(web3code.toString());

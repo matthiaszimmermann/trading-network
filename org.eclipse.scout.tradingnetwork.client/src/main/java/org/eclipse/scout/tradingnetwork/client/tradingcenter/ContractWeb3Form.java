@@ -74,6 +74,11 @@ public class ContractWeb3Form extends AbstractForm {
         }
 
         @Override
+        protected int getConfiguredMaxLength() {
+          return 10000;
+        }
+
+        @Override
         protected int getConfiguredGridW() {
           return 2;
         }
